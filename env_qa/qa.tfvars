@@ -11,6 +11,7 @@ cluster_name_existing= "test"
 cluster_role_name = "EKSClusterRole"
 subnet_tags= {
 
-  "env": "qa"
+  "env": "qa",
+  "kubernetes.io/cluster/my-eks" = "shared"
 }
 
