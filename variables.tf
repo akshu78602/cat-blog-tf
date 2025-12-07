@@ -72,3 +72,11 @@ variable "cluster_role_name" {
   type = string
 
 }
+
+variable "subnet_tags" {
+  type = map(string)
+  default = {
+    "kubernetes.io/cluster/my-eks" = "shared"
+    "kubernetes.io/role/elb"       = "1"
+  }
+}

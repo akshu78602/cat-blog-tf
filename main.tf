@@ -28,59 +28,15 @@ module "iam_oidc" {
 
 }
 
-import {
-  id = "abc"
-  to = module.iam_oidc.aws_iam_role.role
-}
-
-import {
-  id = "https://token.actions.githubusercontent.com"
-  to = module.iam_oidc.aws_iam_openid_connect_provider.default
-}
-
-import {
-  id = "arn:aws:iam::424851482428:policy/test1"
-  to = module.iam_oidc.aws_iam_policy.policy
-}
-
-data "aws_vpc" "default_vpc" {
-  default = true
-}
-
-data "aws_subnets" "default_subnets" {
-  filter {
-    name   = "vpc-id"
-    values = [data.aws_vpc.default_vpc.id]
-  }
 
 
-
-
-  filter {
-    name = "availability-zone"
-    values = [
-      "us-east-1a",
-      "us-east-1b",
-      "us-east-1c",
-      "us-east-1d",
-      "us-east-1f",
-    ]
-  }
-}
-
-data "http" "my_ip" {
-
-  url = "https://checkip.amazonaws.com"
-
-
-}
 
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
   version = "20.0.0"
 
   cluster_name    = var.cluster_name
-  cluster_version = "1.29"
+  cluster_version = "1.34"
 
   vpc_id     = data.aws_vpc.default_vpc.id
   subnet_ids = data.aws_subnets.default_subnets.ids
@@ -92,7 +48,7 @@ module "eks" {
   kms_key_enable_default_policy = false
   cluster_encryption_config     = []
 
- 
+
   eks_managed_node_groups = {
     default = {
       min_size       = 1
@@ -101,4 +57,16 @@ module "eks" {
       instance_types = ["t3.small"]
     }
   }
+}
+
+
+module "aws_ec2_tag" {
+
+  source = "./modules/vpc"
+
+  subnet_ids = data.aws_subnets.default_subnets.ids
+
+  subnet_tags = var.subnet_tags
+
+
 }

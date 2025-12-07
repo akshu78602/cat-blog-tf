@@ -9,4 +9,8 @@ role_name= "abc"
 cluster_name= "test1"
 cluster_name_existing= "test"
 cluster_role_name = "EKSClusterRole"
+subnet_tags= {
+
+  "env": "qa"
+}
 
