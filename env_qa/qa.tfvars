@@ -12,6 +12,10 @@ cluster_role_name = "EKSClusterRole"
 subnet_tags= {
 
   "env": "qa",
-  "kubernetes.io/cluster/my-eks" = "shared"
-}
+  "kubernetes.io/cluster/test1" = "shared",
+  "kubernetes.io/role/elb" = "1"
 
+}
+name="littlecat.net"
+ttl="300"
+type="A"

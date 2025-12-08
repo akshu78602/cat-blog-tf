@@ -28,9 +28,6 @@ module "iam_oidc" {
 
 }
 
-
-
-
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
   version = "20.0.0"
@@ -68,5 +65,21 @@ module "aws_ec2_tag" {
 
   subnet_tags = var.subnet_tags
 
+
+}
+
+module "aws_route53_record" {
+  source = "./modules/route53"
+
+  zone_id = data.aws_route53_zone.selected.zone_id
+
+  type = var.type
+
+  ttl = var.ttl
+
+  name = var.name
+
+  dns_name               = data.aws_lb.lb.dns_name
+  alb_zone_id            = data.aws_lb.lb.zone_id
 
 }
