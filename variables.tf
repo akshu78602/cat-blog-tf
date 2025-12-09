@@ -80,3 +80,22 @@ variable "subnet_tags" {
     "kubernetes.io/role/elb"       = "1"
   }
 }
+
+variable "name" {
+
+  type = string
+
+
+}
+
+
+variable "type" {
+
+  type = string
+
+}
+variable "ttl" {
+
+  type = string
+
+}

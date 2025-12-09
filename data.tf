@@ -23,3 +23,14 @@ data "aws_subnets" "default_subnets" {
   }
 }
 
+data "aws_lb" "lb" {
+
+  name = "k8s-default-catblogl-7286c3aafb"
+
+
+}
+
+data "aws_route53_zone" "selected" {
+  name         = var.name
+  private_zone = false
+}
