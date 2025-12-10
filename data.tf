@@ -8,9 +8,6 @@ data "aws_subnets" "default_subnets" {
     values = [data.aws_vpc.default_vpc.id]
   }
 
-
-
-
   filter {
     name = "availability-zone"
     values = [
