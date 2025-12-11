@@ -30,7 +30,7 @@ module "iam_oidc" {
 
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
-  version = "20.0.0"
+  version = "20.15.0"
 
   cluster_name    = var.cluster_name
   cluster_version = "1.34"
@@ -79,7 +79,49 @@ module "aws_route53_record" {
 
   name = var.name
 
-  dns_name               = data.aws_lb.lb.dns_name
-  alb_zone_id            = data.aws_lb.lb.zone_id
+  dns_name    = data.aws_lb.lb.dns_name
+  alb_zone_id = data.aws_lb.lb.zone_id
 
 }
+
+
+
+module "s3_bucket_hosting" {
+  source  = "terraform-aws-modules/s3-bucket/aws"
+  version = "4.1.0"
+
+  bucket = var.bucket_name_hosting
+
+  object_ownership         = "BucketOwnerEnforced"
+  control_object_ownership = true
+
+  website = {
+    index_document = "index.html"
+    error_document = "error.html"
+  }
+
+
+  block_public_acls       = false
+  block_public_policy     = false
+  ignore_public_acls      = false
+  restrict_public_buckets = false
+
+  attach_policy = true
+  versioning = {
+    enabled = true
+  }
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Sid       = "PublicReadGetObject"
+        Effect    = "Allow"
+        Principal = "*"
+        Action    = "s3:GetObject"
+        Resource  = "arn:aws:s3:::${var.bucket_name_hosting}/*"
+      }
+    ]
+  })
+}
+

@@ -13,4 +13,3 @@ import {
   id = "arn:aws:iam::424851482428:policy/test1"
   to = module.iam_oidc.aws_iam_policy.policy
 }
-

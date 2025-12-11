@@ -1,10 +1,22 @@
-module "s3_bucket" {
-  source = "terraform-aws-modules/s3-bucket/aws"
+resource "aws_s3_bucket_website_configuration" "hosting" {
+  bucket = var.bucket_id
 
-  bucket = var.bucket_name
+  index_document {
+    suffix = "index.html"
+  }
 
+  error_document {
+    key = "error.html"
+  }
 
-  versioning = {
-    enabled = true
+  routing_rule {
+    condition {
+      key_prefix_equals = "docs/"
+    }
+    redirect {
+      replace_key_prefix_with = "documents/"
+    }
   }
 }
+
+

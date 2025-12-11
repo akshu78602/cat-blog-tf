@@ -19,3 +19,5 @@ subnet_tags= {
 name="littlecat.net"
 ttl="300"
 type="A"
+bucket_name_hosting="blog-hosting-cat-1"
+
