@@ -68,10 +68,12 @@ module "aws_ec2_tag" {
 
 }
 
-module "aws_route53_record" {
+/*module "aws_route53_record" {
   source = "./modules/route53"
 
   zone_id = data.aws_route53_zone.selected.zone_id
+
+  for_each = aws_cloudfront_distribution.s3_distribution.aliases
 
   type = var.type
 
@@ -79,7 +81,68 @@ module "aws_route53_record" {
 
   name = var.name
 
-  dns_name               = data.aws_lb.lb.dns_name
-  alb_zone_id            = data.aws_lb.lb.zone_id
+  dns_name    = data.aws_lb.lb.dns_name
+  zone_id = data.aws_lb.lb.zone_id
 
+}*/
+
+
+module "s3_bucket_hosting" {
+  source  = "terraform-aws-modules/s3-bucket/aws"
+  version = "4.1.0"
+
+  bucket = var.bucket_name_hosting
+
+  object_ownership         = "BucketOwnerEnforced"
+  control_object_ownership = true
+
+  website = {
+    index_document = "index.html"
+    error_document = "error.html"
+  }
+
+
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
+
+  versioning = {
+    enabled = true
+  }
+
+  /*policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Sid       = "PublicReadGetObject"
+        Effect    = "Allow"
+        Principal = "*"
+        Action    = "s3:GetObject"
+        Resource  = "arn:aws:s3:::${var.bucket_name_hosting}/*"
+      }
+    ]
+  })*/
 }
+
+module "cf_distribution" {
+  source = "./modules/cloudfront"
+
+  web_bucket_name          = module.s3_bucket_hosting.s3_bucket_id
+  web_bucket_arn           = module.s3_bucket_hosting.s3_bucket_arn
+  s3_bucket_website_domain = module.s3_bucket_hosting.s3_bucket_bucket_regional_domain_name
+}
+
+
+
+module "aws_route53_record" {
+  name= var.name
+  source        = "./modules/route53"
+  route_zone_id = data.aws_route53_zone.selected.zone_id
+  type          = "A"
+
+  dns_name = module.cf_distribution.domain_name
+  zone_id  = module.cf_distribution.hosted_zone_id
+  ttl      = "300"
+}
+

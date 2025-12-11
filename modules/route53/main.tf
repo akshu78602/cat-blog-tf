@@ -1,11 +1,11 @@
 resource "aws_route53_record" "www" {
-  zone_id = var.zone_id
+  zone_id = var.route_zone_id
   name    = var.name
   type    = var.type
 
   alias {
     name                   = var.dns_name
-    zone_id                = var.alb_zone_id
+    zone_id                = var.zone_id
     evaluate_target_health = true
   }
 }
