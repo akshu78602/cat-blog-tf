@@ -70,7 +70,9 @@ resource "aws_iam_policy" "policy" {
           "sts:*",
           "kms:*",
           "ec2:*",
-          "logs:*"
+          "logs:*",
+          "elasticloadbalancing:*",
+          "route53:*"
 
         ]
         Effect   = "Allow"

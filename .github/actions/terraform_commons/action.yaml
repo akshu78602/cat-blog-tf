@@ -35,6 +35,9 @@ runs:
        shell: bash
        run:  terraform validate
 
+    -  name: Terraform Format
+       shell: bash
+       run:  terraform fmt
 
     - name: Run Terraform
       shell: bash

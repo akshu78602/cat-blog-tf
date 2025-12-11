@@ -99,3 +99,11 @@ variable "ttl" {
   type = string
 
 }
+
+variable "bucket_name_hosting" {
+
+  type = string
+
+}
+
+
