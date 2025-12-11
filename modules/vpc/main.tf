@@ -12,7 +12,6 @@ locals {
   ])
 }
 
-
 resource "aws_ec2_tag" "tags" {
   for_each = {
     for t in local.subnet_tags : t.id => t

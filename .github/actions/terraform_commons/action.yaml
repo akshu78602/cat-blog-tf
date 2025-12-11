@@ -14,7 +14,7 @@ runs:
   steps:
 
     - name: Set working directory
-      working-directory: ${{ github.workspace }}
+      working-directory: ${{ github.workspace }}/${{ inputs.env_name }}
       run: echo "WORKSPACE=${GITHUB_WORKSPACE}" 
       shell: bash
 
@@ -35,17 +35,14 @@ runs:
        shell: bash
        run:  terraform validate
 
-    -  name: Terraform Format
-       shell: bash
-       run:  terraform fmt
 
     - name: Run Terraform
       shell: bash
       working-directory: ${{ github.workspace }}
       run: |
         if [[ "${{ inputs.action }}" == "plan" ]]; then
-          echo "terraform plan -var-file="${{ inputs.tf_var_file }}" -out=tfplan"
-          terraform plan -var-file="${{ inputs.tf_var_file }}" -out=tfplan
+          echo "terraform plan
+          terraform plan
         elif [[ "${{ inputs.action }}" == "apply" ]]; then
           terraform apply "tfplan"
         fi

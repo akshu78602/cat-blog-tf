@@ -4,10 +4,6 @@ resource "aws_ecr_repository" "repo" {
   image_tag_mutability = var.repo_types
 
   image_scanning_configuration {
-
-
     scan_on_push = var.scan_image_on_push
-
-
   }
 }

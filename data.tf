@@ -8,6 +8,9 @@ data "aws_subnets" "default_subnets" {
     values = [data.aws_vpc.default_vpc.id]
   }
 
+
+
+
   filter {
     name = "availability-zone"
     values = [
@@ -30,4 +33,9 @@ data "aws_lb" "lb" {
 data "aws_route53_zone" "selected" {
   name         = var.name
   private_zone = false
+}
+
+data "aws_acm_certificate" "issued" {
+  domain   = var.name
+  statuses = ["ISSUED"]
 }

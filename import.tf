@@ -8,8 +8,12 @@ import {
   to = module.iam_oidc.aws_iam_role.role
 }
 
-
 import {
   id = "arn:aws:iam::424851482428:policy/test1"
   to = module.iam_oidc.aws_iam_policy.policy
+}
+
+import {
+  id = "cat-blogs"
+  to = module.ecr_image.aws_ecr_repository.repo
 }
