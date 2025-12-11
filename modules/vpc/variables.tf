@@ -6,9 +6,9 @@ variable "subnet_tags" {
   }
 }
 
-variable "subnet_ids"{
+variable "subnet_ids" {
 
-  type= list(string)
-  
+  type = list(string)
+
 
 }
