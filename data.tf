@@ -34,3 +34,8 @@ data "aws_route53_zone" "selected" {
   name         = var.name
   private_zone = false
 }
+
+data "aws_acm_certificate" "issued" {
+  domain   = var.name
+  statuses = ["ISSUED"]
+}
