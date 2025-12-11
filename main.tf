@@ -68,10 +68,12 @@ module "aws_ec2_tag" {
 
 }
 
-module "aws_route53_record" {
+/*module "aws_route53_record" {
   source = "./modules/route53"
 
   zone_id = data.aws_route53_zone.selected.zone_id
+
+  for_each = aws_cloudfront_distribution.s3_distribution.aliases
 
   type = var.type
 
@@ -80,10 +82,9 @@ module "aws_route53_record" {
   name = var.name
 
   dns_name    = data.aws_lb.lb.dns_name
-  alb_zone_id = data.aws_lb.lb.zone_id
+  zone_id = data.aws_lb.lb.zone_id
 
-}
-
+}*/
 
 
 module "s3_bucket_hosting" {
@@ -132,4 +133,16 @@ module "cf_distribution" {
   s3_bucket_website_domain = module.s3_bucket_hosting.s3_bucket_bucket_regional_domain_name
 }
 
+
+
+module "aws_route53_record" {
+  name= var.name
+  source        = "./modules/route53"
+  route_zone_id = data.aws_route53_zone.selected.zone_id
+  type          = "A"
+
+  dns_name = module.cf_distribution.domain_name
+  zone_id  = module.cf_distribution.hosted_zone_id
+  ttl      = "300"
+}
 

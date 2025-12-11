@@ -104,7 +104,7 @@ data "aws_iam_policy_document" "blogbucketpolicybuilder" {
 }
 
 resource "aws_s3_bucket_policy" "bucketpolicy" {
-  bucket=local.web_bucket_name
+  bucket = local.web_bucket_name
   policy = data.aws_iam_policy_document.blogbucketpolicybuilder.json
 }
 
@@ -116,3 +116,9 @@ output "domain_name" {
 output "distribution_arn" {
   value = aws_cloudfront_distribution.s3_distribution.arn
 }
+
+output "hosted_zone_id" {
+  description = "CloudFront Route53 hosted zone id"
+  value       = aws_cloudfront_distribution.s3_distribution.hosted_zone_id
+}
+

@@ -31,7 +31,7 @@ variable "dns_name" {
   type = string
 }
 
-variable "alb_zone_id" {
+variable "route_zone_id" {
 
   type = string
 
