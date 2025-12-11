@@ -1,12 +1,12 @@
 
 locals {
   subnet_tags = flatten([
-    for subnet in var.subnet_ids: [
+    for subnet in var.subnet_ids : [
       for key, value in var.subnet_tags : {
-        id    = "${subnet}-${key}"
+        id          = "${subnet}-${key}"
         resource_id = subnet
-        key   = key
-        value = value
+        key         = key
+        value       = value
       }
     ]
   ])

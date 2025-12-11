@@ -106,3 +106,4 @@ variable "bucket_name_hosting" {
 
 }
 
+

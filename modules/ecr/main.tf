@@ -1,7 +1,7 @@
 
 resource "aws_ecr_repository" "repo" {
-  name = var.ecr_repo_name
-  image_tag_mutability =  var.repo_types
+  name                 = var.ecr_repo_name
+  image_tag_mutability = var.repo_types
 
   image_scanning_configuration {
 

@@ -101,17 +101,16 @@ module "s3_bucket_hosting" {
   }
 
 
-  block_public_acls       = false
-  block_public_policy     = false
-  ignore_public_acls      = false
-  restrict_public_buckets = false
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
 
-  attach_policy = true
   versioning = {
     enabled = true
   }
 
-  policy = jsonencode({
+  /*policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
       {
@@ -122,6 +121,15 @@ module "s3_bucket_hosting" {
         Resource  = "arn:aws:s3:::${var.bucket_name_hosting}/*"
       }
     ]
-  })
+  })*/
 }
+
+module "cf_distribution" {
+  source = "./modules/cloudfront"
+
+  web_bucket_name          = module.s3_bucket_hosting.s3_bucket_id
+  web_bucket_arn           = module.s3_bucket_hosting.s3_bucket_arn
+  s3_bucket_website_domain = module.s3_bucket_hosting.s3_bucket_bucket_regional_domain_name
+}
+
 

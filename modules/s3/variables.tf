@@ -1,8 +1,8 @@
 
-variable "bucket_id"{
+variable "bucket_id" {
 
-    type=string
-    
+  type = string
+
 
 }
 
