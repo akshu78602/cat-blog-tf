@@ -10,7 +10,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   enabled             = true
   is_ipv6_enabled     = true
   default_root_object = "index.html"
-  aliases = ["littlecat.net", "www.littlecat.net"]
+  aliases = ["littlecat.net"]
 
   origin {
     domain_name              = local.s3_bucket_website_domain
