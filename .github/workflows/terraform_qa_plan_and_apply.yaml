@@ -41,7 +41,8 @@ jobs:
       - name: Download tfplan
         uses: actions/download-artifact@v4
         with:
-          name: env_qa/qa-tfplan
+          name: tfplan
+          path: env_qa
 
       - name: Debug show downloaded files
         run: ls -la
