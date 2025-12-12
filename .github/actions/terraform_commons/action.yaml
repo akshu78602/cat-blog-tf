@@ -6,8 +6,6 @@ inputs:
     required: true
   env_name:
     required: true
-  tf_var_file:
-    required: false
 
 runs:
   using: "composite"
@@ -26,6 +24,10 @@ runs:
         role-to-assume: "arn:aws:iam::424851482428:role/abc"
         aws-region: us-east-1
     
+    - name: change directory
+      run: cd ${{ github.workspace }}/${{ inputs.env_name }}
+      shell: bash
+          
     - name: Terraform Init
       run:  terraform init
       shell: bash
