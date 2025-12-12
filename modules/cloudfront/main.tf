@@ -24,6 +24,11 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     }
   }
 
+  viewer_certificate {
+    acm_certificate_arn = var.cert_arn
+    minimum_protocol_version = "TLSv1.2_2018"
+  }
+
   default_cache_behavior {
     allowed_methods  = ["GET", "HEAD"]
     cached_methods   = ["GET", "HEAD"]
@@ -41,11 +46,6 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     min_ttl                = 0
     default_ttl            = 3600
     max_ttl                = 86400
-  }
-
-  viewer_certificate {
-    # Default *.cloudfront.net cert
-    cloudfront_default_certificate = true
   }
 }
 

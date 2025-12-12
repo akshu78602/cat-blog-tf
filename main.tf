@@ -84,8 +84,8 @@ module "cf_distribution" {
   web_bucket_name          = module.s3_bucket_hosting.s3_bucket_id
   web_bucket_arn           = module.s3_bucket_hosting.s3_bucket_arn
   s3_bucket_website_domain = module.s3_bucket_hosting.s3_bucket_bucket_regional_domain_name
-}
-
+  cert_arn = data.aws_acm_certificate.issued.arn
+  }
 
 module "aws_route53_record" {
   name          = var.name
