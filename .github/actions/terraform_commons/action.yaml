@@ -42,12 +42,15 @@ runs:
 
     -  name: Terraform Validate
        shell: bash
-       run:  terraform validate
+       run:  
+          | 
+          pwd 
+          terraform validate
 
 
     - name: Run Terraform
       shell: bash
-      working-directory: ${{ github.workspace }}
+      working-directory: ${{ github.workspace }}/${{ inputs.env_name }}
       run: |
         if [[ "${{ inputs.action }}" == "plan" ]]; then
           echo "terraform plan
