@@ -24,6 +24,10 @@ runs:
         role-to-assume: "arn:aws:iam::424851482428:role/abc"
         aws-region: us-east-1
 
+    - name: pwd
+      run: pwd
+      shell: bash 
+
     - name: list directory
       run: ls -la 
       shell: bash
