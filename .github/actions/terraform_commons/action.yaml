@@ -55,8 +55,8 @@ runs:
       working-directory: ${{ github.workspace }}/${{ inputs.env_name }}
       run: |
         if [[ "${{ inputs.action }}" == "plan" ]]; then
-          echo "terraform plan
+          echo "terraform plan"
           terraform plan
         elif [[ "${{ inputs.action }}" == "apply" ]]; then
-          terraform apply "tfplan"
+          terraform apply 
         fi
