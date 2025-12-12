@@ -56,7 +56,8 @@ runs:
       run: |
         if [[ "${{ inputs.action }}" == "plan" ]]; then
           echo "terraform plan"
-          terraform plan
+          terraform plan -out=tfplan
         elif [[ "${{ inputs.action }}" == "apply" ]]; then
-          terraform apply 
+          cat tfplan
+          terraform apply 'tfplan'
         fi
