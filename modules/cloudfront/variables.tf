@@ -16,3 +16,7 @@ variable "web_bucket_arn" {
 variable "s3_bucket_website_domain" {
   type = string
 }
+
+variable "cert_arn" {
+  type = string
+}
