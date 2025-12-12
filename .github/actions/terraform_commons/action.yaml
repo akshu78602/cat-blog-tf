@@ -17,7 +17,6 @@ runs:
       working-directory: ${{ github.workspace }}/${{ inputs.env_name }}
       run: echo "WORKSPACE=${GITHUB_WORKSPACE}" 
       shell: bash
-
     - uses: hashicorp/setup-terraform@v3
       with:
         terraform_version: 1.5.0
@@ -28,7 +27,7 @@ runs:
         aws-region: us-east-1
     
     - name: Terraform Init
-      run:  terraform init -var-file="${{ inputs.tf_var_file }}"
+      run:  terraform init
       shell: bash
 
     -  name: Terraform Validate
