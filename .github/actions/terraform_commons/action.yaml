@@ -23,6 +23,10 @@ runs:
       with:
         role-to-assume: "arn:aws:iam::424851482428:role/abc"
         aws-region: us-east-1
+
+    - name: list directory
+      run: ls -la 
+      shell: bash
     
     - name: change directory
       run: cd ${{ github.workspace }}/${{ inputs.env_name }}
