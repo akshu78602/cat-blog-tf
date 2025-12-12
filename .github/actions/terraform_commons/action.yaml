@@ -6,46 +6,57 @@ inputs:
     required: true
   env_name:
     required: true
-  tf_var_file:
-    required: false
 
 runs:
   using: "composite"
   steps:
 
     - name: Set working directory
-      working-directory: ${{ github.workspace }}
+      working-directory: ${{ github.workspace }}/${{ inputs.env_name }}
       run: echo "WORKSPACE=${GITHUB_WORKSPACE}" 
       shell: bash
 
     - uses: hashicorp/setup-terraform@v3
       with:
-        terraform_version: 1.5.0
+        terraform_version: 1.5.7
 
     - uses: aws-actions/configure-aws-credentials@v4
       with:
         role-to-assume: "arn:aws:iam::424851482428:role/abc"
         aws-region: us-east-1
-    
+
+    - name: change directory
+      run: cd ${{ inputs.env_name }}
+      shell: bash
+
+
     - name: Terraform Init
-      run:  terraform init -var-file="${{ inputs.tf_var_file }}"
+      working-directory: ${{ github.workspace }}/${{ inputs.env_name }}
+      run:  
+          |
+          
+          cd ${{ github.workspace }}/${{ inputs.env_name }}
+          pwd
+          ls -la
+          terraform init
       shell: bash
 
     -  name: Terraform Validate
+       working-directory: ${{ github.workspace }}/${{ inputs.env_name }}
        shell: bash
-       run:  terraform validate
+       run:  
+          | 
+          pwd 
+          terraform validate
 
-    -  name: Terraform Format
-       shell: bash
-       run:  terraform fmt
 
     - name: Run Terraform
       shell: bash
-      working-directory: ${{ github.workspace }}
+      working-directory: ${{ github.workspace }}/${{ inputs.env_name }}
       run: |
         if [[ "${{ inputs.action }}" == "plan" ]]; then
-          echo "terraform plan -var-file="${{ inputs.tf_var_file }}" -out=tfplan"
-          terraform plan -var-file="${{ inputs.tf_var_file }}" -out=tfplan
+          echo "terraform plan"
+          terraform plan
         elif [[ "${{ inputs.action }}" == "apply" ]]; then
-          terraform apply "tfplan"
+          terraform apply 
         fi

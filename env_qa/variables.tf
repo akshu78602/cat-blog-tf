@@ -1,1 +1,1 @@
-/Users/ac/cat-blog/variables.tf
+../variables.tf

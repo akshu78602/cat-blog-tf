@@ -1,8 +1,3 @@
-
-variable "bucket_id" {
-
+variable "bucket_name" {
   type = string
-
-
 }
-
