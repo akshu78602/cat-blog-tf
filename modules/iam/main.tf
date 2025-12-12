@@ -61,7 +61,10 @@ resource "aws_iam_policy" "policy" {
           "ec2:*",
           "logs:*",
           "acm:*",
-          "cloudfront:*"
+          "cloudfront:*",
+          "elasticloadbalancing:*",
+          "route53:*"
+
         ]
         Effect   = "Allow"
         Resource = "*"
