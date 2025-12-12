@@ -58,5 +58,6 @@ runs:
           echo "terraform plan"
           terraform plan -out=tfplan
         elif [[ "${{ inputs.action }}" == "apply" ]]; then
+          cat tfplan
           terraform apply 'tfplan'
         fi
