@@ -29,18 +29,15 @@ runs:
       run: cd ${{ inputs.env_name }}
       shell: bash
 
-    - name: pwd
-      run: pwd
-      shell: bash 
-
-    - name: list directory
-      run: ls -la 
-      shell: bash
-    
-
 
     - name: Terraform Init
-      run:  terraform init
+      run:  
+          |
+          
+          cd ${{ github.workspace }}/${{ inputs.env_name }}
+          pwd
+          ls -la
+          terraform init
       shell: bash
 
     -  name: Terraform Validate
