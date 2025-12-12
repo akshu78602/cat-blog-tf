@@ -13,7 +13,7 @@ module "iam_oidc" {
   repo_owner  = var.repo_owner
 }
 
-module "eks" {
+/*module "eks" {
   source  = "terraform-aws-modules/eks/aws"
   version = "18.31.2"
   cluster_name    = var.cluster_name
@@ -34,7 +34,7 @@ module "eks" {
       instance_types = ["t3.small"]
     }
   }
-}
+}*/
 
 module "aws_ec2_tag" {
   source = "../modules/vpc"
