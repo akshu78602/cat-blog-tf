@@ -38,10 +38,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: change directory
+        run: cd env_qa
+        shell: bash
+
       - name: Download tfplan
         uses: actions/download-artifact@v4
         with:
-          name: tfplan
+          name: qa-tfplan
           path: env_qa
 
       - name: Debug show downloaded files
