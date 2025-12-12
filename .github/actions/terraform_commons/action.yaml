@@ -15,6 +15,7 @@ runs:
       working-directory: ${{ github.workspace }}/${{ inputs.env_name }}
       run: echo "WORKSPACE=${GITHUB_WORKSPACE}" 
       shell: bash
+
     - uses: hashicorp/setup-terraform@v3
       with:
         terraform_version: 1.5.7
@@ -24,6 +25,10 @@ runs:
         role-to-assume: "arn:aws:iam::424851482428:role/abc"
         aws-region: us-east-1
 
+    - name: change directory
+      run: cd ${{ inputs.env_name }}
+      shell: bash
+
     - name: pwd
       run: pwd
       shell: bash 
@@ -32,9 +37,7 @@ runs:
       run: ls -la 
       shell: bash
     
-    - name: change directory
-      run: cd ${{ github.workspace }}/${{ inputs.env_name }}
-      shell: bash
+
 
     - name: Terraform Init
       run:  terraform init
