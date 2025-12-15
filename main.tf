@@ -1,19 +1,21 @@
-module "ecr_image" {
-  source        = "../modules/ecr"
-  ecr_repo_name = var.ecr_repo_name
-  repo_types    = var.repo_types
+module "cat_blog_image" {
+  source = "../modules/ecr"
+
+  ecr_repo_name      = var.ecr_repo_name
+  repo_types         = var.image_tag_mutability
   scan_image_on_push = var.scan_image_on_push
 }
 
 module "iam_oidc" {
-  source      = "../modules/iam"
+  source = "../modules/iam"
+
   role_name   = var.role_name
   policy_name = var.policy_name
-  repo_name   = var.repo_name
+  repo_name   = var.github_repo_name
   repo_owner  = var.repo_owner
 }
 
-/*module "eks" {
+/*module "cat_blog_cluster" {
   source  = "terraform-aws-modules/eks/aws"
   version = "18.31.2"
   cluster_name    = var.cluster_name
@@ -36,24 +38,24 @@ module "iam_oidc" {
   }
 }*/
 
-module "aws_ec2_tag" {
+module "subnet_tagging" {
   source = "../modules/vpc"
 
-  subnet_ids = data.aws_subnets.default_subnets.ids
+  subnet_ids  = data.aws_subnets.default_subnets.ids
   subnet_tags = var.subnet_tags
 }
 
-module "s3_bucket_hosting" {
-  source  = "terraform-aws-modules/s3-bucket/aws"
-  
-  version = "4.1.0"
-  bucket = var.bucket_name_hosting
+module "cat_blog_s3_hosting" {
+  source = "terraform-aws-modules/s3-bucket/aws"
+
+  version                  = "4.1.0"
+  bucket                   = var.bucket_name_hosting
   object_ownership         = "BucketOwnerEnforced"
   control_object_ownership = true
-  block_public_acls       = true
-  block_public_policy     = true
-  ignore_public_acls      = true
-  restrict_public_buckets = true
+  block_public_acls        = true
+  block_public_policy      = true
+  ignore_public_acls       = true
+  restrict_public_buckets  = true
 
   website = {
     index_document = "index.html"
@@ -78,22 +80,22 @@ module "s3_bucket_hosting" {
   })*/
 }
 
-module "cf_distribution" {
+module "s3_cf_distribution" {
   source = "../modules/cloudfront"
 
-  web_bucket_name          = module.s3_bucket_hosting.s3_bucket_id
-  web_bucket_arn           = module.s3_bucket_hosting.s3_bucket_arn
-  s3_bucket_website_domain = module.s3_bucket_hosting.s3_bucket_bucket_regional_domain_name
-  cert_arn = data.aws_acm_certificate.issued.arn
-  }
+  web_bucket_name          = module.cat_blog_s3_hosting.s3_bucket_id
+  web_bucket_arn           = module.cat_blog_s3_hosting.s3_bucket_arn
+  s3_bucket_website_domain = module.cat_blog_s3_hosting.s3_bucket_bucket_regional_domain_name
+  cert_arn                 = data.aws_acm_certificate.issued.arn
+}
 
-module "aws_route53_record" {
-  name          = var.name
-  source        = "../modules/route53"
-  route_zone_id = data.aws_route53_zone.selected.zone_id
-  type          = "A"
+module "cloudfront_route53_record" {
+  source = "../modules/route53"
 
-  dns_name = module.cf_distribution.domain_name
-  zone_id  = module.cf_distribution.hosted_zone_id
-  ttl      = "300"
+  zone_id                = data.aws_route53_zone.selected.zone_id
+  name                   = var.name
+  type                   = var.type
+  alias_name             = module.s3_cf_distribution.domain_name
+  alias_zone_id          = module.s3_cf_distribution.hosted_zone_id
+  evaluate_target_health = false
 }
