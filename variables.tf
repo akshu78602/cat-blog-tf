@@ -3,7 +3,7 @@ variable "ecr_repo_name" {
   description = "name of repo"
 }
 
-variable "repo_types" {
+variable "image_tag_mutability" {
   type        = string
   default     = "MUTABLE"
   description = "weather the repo should be mutable or immutable "
@@ -13,10 +13,6 @@ variable "scan_image_on_push" {
   type        = bool
   default     = true
   description = "scans images on push for vurnabilities"
-}
-
-variable "bucket_name" {
-  type = string
 }
 
 variable "acl" {
@@ -36,16 +32,7 @@ variable "repo_owner" {
   type = string
 }
 
-variable "repo_name" {
-  type = string
-}
-
-variable "cluster_name" {
-  type        = string
-  description = "Name of the EKS cluster"
-}
-
-variable "cluster_role_name" {
+variable "github_repo_name" {
   type = string
 }
 
@@ -58,18 +45,15 @@ variable "subnet_tags" {
   }
 }
 
+variable "bucket_name_hosting" {
+  type = string
+}
+
 variable "name" {
   type = string
 }
 
 variable "type" {
-  type = string
-}
-
-variable "ttl" {
-  type = string
-}
-
-variable "bucket_name_hosting" {
-  type = string
+  type    = string
+  default = "A"
 }

@@ -1,23 +1,25 @@
-variable "name" {
-  type = string
-}
-
 variable "zone_id" {
   type = string
 }
 
+variable "name" {
+  type = string
+}
+
 variable "type" {
+  type    = string
+  default = "A"
+}
+
+variable "alias_name" {
   type = string
 }
 
-variable "ttl" {
+variable "alias_zone_id" {
   type = string
 }
 
-variable "dns_name" {
-  type = string
-}
-
-variable "route_zone_id" {
-  type = string
+variable "evaluate_target_health" {
+  type    = bool
+  default = false
 }

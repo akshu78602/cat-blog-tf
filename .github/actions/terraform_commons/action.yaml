@@ -22,7 +22,7 @@ runs:
 
     - uses: aws-actions/configure-aws-credentials@v4
       with:
-        role-to-assume: "arn:aws:iam::424851482428:role/abc"
+        role-to-assume: "arn:aws:iam::424851482428:role/ci_cd_role"
         aws-region: us-east-1
 
     - name: change directory

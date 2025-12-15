@@ -10,3 +10,16 @@ variable "subnet_tags" {
 variable "subnet_ids" {
   type = list(string)
 }
+
+locals {
+  subnet_tags = flatten([
+    for subnet in var.subnet_ids : [
+      for key, value in var.subnet_tags : {
+        id          = "${subnet}-${key}"
+        resource_id = subnet
+        key         = key
+        value       = value
+      }
+    ]
+  ])
+}
