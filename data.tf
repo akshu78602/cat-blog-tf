@@ -12,19 +12,16 @@ data "aws_subnets" "default_subnets" {
     name = "availability-zone"
     values = [
       "us-east-1a",
-      "us-east-1b",
-      "us-east-1c",
-      "us-east-1d",
-      "us-east-1f",
+      "us-east-1b"
     ]
   }
 }
-data "aws_route53_zone" "selected" {
+data "aws_route53_zone" "hosted_zone_names" {
   name         = var.name
   private_zone = false
 }
 
-data "aws_acm_certificate" "issued" {
+data "aws_acm_certificate" "ssl_cert_name" {
   domain   = var.name
   statuses = ["ISSUED"]
 }
