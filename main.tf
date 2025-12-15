@@ -39,7 +39,7 @@ module "iam_oidc" {
 }*/
 
 module "subnet_tagging" {
-  source = "../modules/vpc"
+  source = "../modules/vpc_subnet_tagging"
 
   subnet_ids  = data.aws_subnets.default_subnets.ids
   subnet_tags = var.subnet_tags
@@ -86,13 +86,13 @@ module "s3_cf_distribution" {
   web_bucket_name          = module.cat_blog_s3_hosting.s3_bucket_id
   web_bucket_arn           = module.cat_blog_s3_hosting.s3_bucket_arn
   s3_bucket_website_domain = module.cat_blog_s3_hosting.s3_bucket_bucket_regional_domain_name
-  cert_arn                 = data.aws_acm_certificate.issued.arn
+  cert_arn                 = data.aws_acm_certificate.ssl_cert_name.arn
 }
 
 module "cloudfront_route53_record" {
   source = "../modules/route53"
 
-  zone_id                = data.aws_route53_zone.selected.zone_id
+  zone_id                = data.aws_route53_zone.hosted_zone_names.zone_id
   name                   = var.name
   type                   = var.type
   alias_name             = module.s3_cf_distribution.domain_name
