@@ -15,18 +15,18 @@ module "iam_oidc" {
   repo_owner  = var.repo_owner
 }
 
-/*module "cat_blog_cluster" {
-  source  = "terraform-aws-modules/eks/aws"
-  version = "18.31.2"
-  cluster_name    = var.cluster_name
-  cluster_version = "1.34"
-  vpc_id     = data.aws_vpc.default_vpc.id
-  subnet_ids = data.aws_subnets.default_subnets.ids
+module "cat_blog_cluster" {
+  source                               = "terraform-aws-modules/eks/aws"
+  version                              = "18.31.2"
+  cluster_name                         = var.cluster_name
+  cluster_version                      = "1.34"
+  vpc_id                               = data.aws_vpc.default_vpc.id
+  subnet_ids                           = data.aws_subnets.default_subnets.ids
   cluster_endpoint_public_access       = true
   cluster_endpoint_public_access_cidrs = ["0.0.0.0/0"]
-  create_kms_key                = false
-  kms_key_enable_default_policy = false
-  cluster_encryption_config     = []
+  create_kms_key                       = false
+  kms_key_enable_default_policy        = false
+  cluster_encryption_config            = []
 
   eks_managed_node_groups = {
     default = {
@@ -36,7 +36,7 @@ module "iam_oidc" {
       instance_types = ["t3.small"]
     }
   }
-}*/
+}
 
 module "subnet_tagging" {
   source = "../modules/vpc_subnet_tagging"
