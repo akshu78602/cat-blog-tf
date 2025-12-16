@@ -57,3 +57,7 @@ variable "type" {
   type    = string
   default = "A"
 }
+
+variable "cluster_name" {
+  type = string
+}
