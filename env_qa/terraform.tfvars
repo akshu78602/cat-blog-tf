@@ -1,5 +1,5 @@
 ecr_repo_name        = "cat-blogs"
-image_tag_mutability = "MUTABLE"
+image_tag_mutability = "IMMUTABLE"
 scan_image_on_push   = true
 github_repo_name     = "cat-blog-tf"
 repo_owner           = "akshu78602"
